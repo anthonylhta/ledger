@@ -1,0 +1,21 @@
+[package]
+name = "ledger"
+version = "0.1.0"
+edition = "2021"
+description = "A local-file finance/portfolio tracker CLI, built to learn Rust fundamentals"
+license = "MIT"
+authors = ["Anthony Ta"]
+readme = "README.md"
+
+[dependencies]
+# clap parses command-line arguments. The "derive" feature lets us describe the
+# CLI with structs/enums + attributes instead of building it by hand.
+clap = { version = "4", features = ["derive"] }
+# serde is the (de)serialization framework. The "derive" feature generates the
+# Serialize/Deserialize impls for our model types from a single #[derive(...)].
+serde = { version = "1", features = ["derive"] }
+# serde_json is the concrete JSON backend that turns our serde models into text.
+serde_json = "1"
+# anyhow gives us a convenient Result<T, anyhow::Error> for application code,
+# plus `.context(...)` to attach human-readable messages to errors.
+anyhow = "1"
