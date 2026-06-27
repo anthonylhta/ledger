@@ -12,3 +12,10 @@ debug/
 
 # MSVC debug info
 *.pdb
+
+# Local notes / ADRs / scratch — never shared. Don't cite these in commits or PRs.
+/notes/
+
+# Local-only Claude Code automation (slash commands + hooks). Not shared by
+# default; remove this line if you ever want to commit a command for the team.
+/.claude/
