@@ -49,8 +49,8 @@ pub fn load() -> Result<Ledger> {
     // We pass `&path` (a borrow). `read_to_string` only needs to *look at* the
     // path to open the file; it doesn't need to own it. Lending a reference
     // means we still own `path` and can reuse it in the error message below.
-    let text = fs::read_to_string(&path)
-        .with_context(|| format!("failed to read {}", path.display()))?;
+    let text =
+        fs::read_to_string(&path).with_context(|| format!("failed to read {}", path.display()))?;
 
     // Parse the JSON text into a `Ledger`. The `: Ledger` annotation tells serde
     // which type to produce. `with_context` uses a closure so the (slightly
@@ -77,7 +77,8 @@ pub fn save(ledger: &Ledger) -> Result<()> {
     }
 
     // Serialize to pretty-printed JSON so the file is human-readable.
-    let json = serde_json::to_string_pretty(ledger).context("failed to serialize ledger to JSON")?;
+    let json =
+        serde_json::to_string_pretty(ledger).context("failed to serialize ledger to JSON")?;
 
     fs::write(&path, json).with_context(|| format!("failed to write {}", path.display()))?;
     Ok(())
