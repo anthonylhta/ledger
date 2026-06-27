@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: check / lint / test / build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Maintained toolchain action (actions-rs is deprecated and unmaintained).
+      - name: Install Rust (stable) with clippy + rustfmt
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cache cargo registry + build
+        uses: Swatinem/rust-cache@v2
+
+      - name: Format check
+        run: cargo fmt --all --check
+
+      - name: Typecheck
+        run: cargo check --all-targets
+
+      - name: Lint (clippy — warnings are errors)
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Test (unit + CLI smoke test)
+        run: cargo test
+
+      - name: Build (release)
+        run: cargo build --release
