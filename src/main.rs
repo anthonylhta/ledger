@@ -19,7 +19,11 @@ use models::{Entry, Ledger};
 /// Top-level CLI definition. `#[derive(Parser)]` makes clap generate an argument
 /// parser from this struct: flags, `--help`, `--version`, and error messages.
 #[derive(Parser)]
-#[command(name = "ledger", version, about = "A local-file finance/portfolio tracker")]
+#[command(
+    name = "ledger",
+    version,
+    about = "A local-file finance/portfolio tracker"
+)]
 struct Cli {
     /// The chosen subcommand (add / list / report).
     #[command(subcommand)]
